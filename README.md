@@ -1,5 +1,7 @@
 # Claude Usage for Macro Deck
 
+<a href="https://macro-deck.app/store/com.alexand7e.claude-usage"><img alt="Open in the Macro Deck Store" src="https://assets.macro-deck.app/branding/Open%20in%20the%20Macro%20Deck%20Store%20Badge%20Dark.png" height="56"></a>
+
 A Macro Deck 3 plugin that shows how much of your **Claude Code** usage limits you have used: the rolling
 5-hour window and the weekly window, with the time left until each one resets.
 
