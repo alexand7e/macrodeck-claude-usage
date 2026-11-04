@@ -17,6 +17,7 @@ namespace ClaudeUsage;
 public sealed class PluginIntegration : IPluginIntegration, IVariableProvider, IWidgetTypeProvider, IUiProvider, IAsyncDisposable
 {
 	private const string UsageWidgetId = "usage";
+	private const string RefreshEnvironmentVariable = "CLAUDE_USAGE_REFRESH";
 
 	private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(5);
 
@@ -27,8 +28,9 @@ public sealed class PluginIntegration : IPluginIntegration, IVariableProvider, I
 	public PluginIntegration(ILogger logger)
 	{
 		_logger = logger.ForContext<PluginIntegration>();
-		_usageFile = new UsageFileReader(Environment.GetEnvironmentVariable(UsageFileReader.PathEnvironmentVariable));
-		_tracker = new UsageTracker(_usageFile, _logger);
+		var usageFileOverride = Environment.GetEnvironmentVariable(UsageFileReader.PathEnvironmentVariable);
+		_usageFile = new UsageFileReader(usageFileOverride);
+		_tracker = new UsageTracker(_usageFile, _logger, CanRefreshUsage(usageFileOverride) ? new ClaudeCliRefresher(_logger) : null);
 	}
 
 	public IReadOnlyList<IActionDefinition> Actions { get; } = [];
@@ -114,6 +116,14 @@ public sealed class PluginIntegration : IPluginIntegration, IVariableProvider, I
 		"""{"type":"object"}""",
 		false,
 		new Dictionary<string, string>());
+
+	/// <summary>
+	/// Running Claude Code only makes sense for the real cache, so a custom usage file turns it off, and so does
+	/// <c>CLAUDE_USAGE_REFRESH=off</c>.
+	/// </summary>
+	private static bool CanRefreshUsage(string? usageFileOverride) =>
+		string.IsNullOrWhiteSpace(usageFileOverride)
+		&& !string.Equals(Environment.GetEnvironmentVariable(RefreshEnvironmentVariable), "off", StringComparison.OrdinalIgnoreCase);
 
 	private static VariableReading ReadPercent(UsageWindow? window, DateTimeOffset now) =>
 		UsageDisplay.Percent(window, now) is { } percent ? VariableReading.Of(percent) : VariableReading.Unavailable;

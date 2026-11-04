@@ -3,7 +3,7 @@
   "manifestVersion": 1,
   "id": "com.alexand7e.claude-usage",
   "name": "Claude Usage",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Shows how much of your Claude Code 5-hour and weekly usage limits you have used, as a deck widget and as variables.",
   "icon": "Assets/icon.svg",
   "entrypoints": {
@@ -23,7 +23,8 @@
   "repository": "https://github.com/alexand7e/macrodeck-claude-usage",
   "homepage": "https://github.com/alexand7e/macrodeck-claude-usage",
   "permissions": [
-    "fs:user-files"
+    "fs:user-files",
+    "process:spawn"
   ],
   "ai": {
     "interaction": false,

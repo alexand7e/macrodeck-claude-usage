@@ -41,27 +41,44 @@ Use them in a button label as `{{ vars.claude_five_hour_percent }}%` or bind the
 
 Claude Code keeps the result of its own `/usage` screen in its configuration file, under the key
 `cachedUsageUtilization` in `~/.claude.json` (or `$CLAUDE_CONFIG_DIR/.claude.json` when that variable is set). The
-plugin polls that file every 5 seconds and shows what it finds. There is no login, no token and no request to
-Anthropic.
+plugin polls that file every 5 seconds and shows what it finds.
+
+Claude Code renews that cache only when something asks it to, for example when you open `/usage`. So when the
+cache is **5 minutes old or more**, the plugin renews it for you by running `claude -p "/usage"`, the same screen
+you would open by hand. That command prints your usage, updates the cache and exits, and it takes a few seconds.
+It does not send a prompt to a model and it does not save a session (`--no-session-persistence`).
+
+- The plugin looks for `claude.exe` on `PATH`, in `~/.local/bin`, in `%LOCALAPPDATA%\Programs\claude` and in the
+  newest Claude Code extension of VS Code, VS Code Insiders, Cursor and Windsurf. Set `CLAUDE_USAGE_CLI` to a full
+  path to use a specific copy.
+- If a run fails or does not update the cache, the plugin waits 5 minutes before trying again, then 10, up to 30,
+  so it never starts Claude Code in a loop.
+- Set `CLAUDE_USAGE_REFRESH=off` to turn the automatic refresh off. The plugin then only shows what the cache
+  already holds, which changes when you run `/usage` yourself.
 
 ## Privacy and data handling
 
 - The plugin **reads one file**: Claude Code's `.claude.json`. That file also contains account details. The
   plugin parses it but only looks at the `cachedUsageUtilization` key, and it never logs, stores or transmits any
-  part of it.
-- The plugin makes **no network requests** and collects no personal data.
+  part of it. It never writes to that file.
+- The plugin **starts one program**: Claude Code (`claude -p "/usage"`), at most every 5 minutes and only when the
+  cache is stale. It declares the `process:spawn` permission for this. It passes no secret to it and reads nothing
+  from it except whether it succeeded.
+- The plugin makes **no network requests of its own** and collects no personal data. When Claude Code runs
+  `/usage` it contacts Anthropic with your own sign-in, exactly as it does when you run `/usage` yourself.
 - It declares the `fs:user-files` permission because it reads a file outside its own data directory.
-- It never writes to that file.
 
 ## Limitations
 
 - The cache is an internal detail of Claude Code, not a documented interface. A Claude Code update can change its
   shape. If that happens the widget shows `--` until the plugin is updated.
-- The numbers refresh only while Claude Code is running and fetching usage. A cache older than 60 minutes, the
+- The numbers are as fresh as the last refresh, so up to about 5 minutes old, plus the seconds a refresh takes.
+  If Claude Code cannot be found or run, the plugin shows the last cache it has. A cache older than 60 minutes, the
   same limit `/usage` applies, is treated as unavailable.
 - A window whose reset time has passed is shown as 0%.
 - The values are the plan limits Claude Code reports. They do not include usage from other devices unless Claude
   Code itself reports it.
+- Each refresh runs a short Claude Code process, which also counts as an ordinary `/usage` request to Anthropic.
 - Windows only for now.
 
 ## AI disclosure
@@ -90,7 +107,8 @@ dotnet run --launch-profile "Macro Deck - Real Host"
 Approve the pairing prompt in Macro Deck. Run it from that folder, because the plugin looks for `manifest.json` in
 the current directory. While it runs, `dotnet build` cannot replace the executable, so stop it first.
 
-`CLAUDE_USAGE_FILE` points the plugin at a different file with the same shape, which the tests use.
+`CLAUDE_USAGE_FILE` points the plugin at a different file with the same shape, which the tests use. It also turns
+the automatic refresh off, because renewing a cache only makes sense for the real one.
 
 See `AGENTS.md` for the rules this project follows (localization, async, logging and the Store gate).
 

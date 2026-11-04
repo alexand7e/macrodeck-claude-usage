@@ -17,7 +17,7 @@ public sealed class UsageFileReader : IDisposable
 	private readonly SemaphoreSlim _gate = new(1, 1);
 	private DateTime _lastWrite;
 	private long _lastLength = -1;
-	private UsageSnapshot _lastGood = UsageSnapshot.Empty;
+	private volatile UsageSnapshot _lastGood = UsageSnapshot.Empty;
 
 	public UsageFileReader(string? path = null)
 	{
@@ -25,6 +25,11 @@ public sealed class UsageFileReader : IDisposable
 	}
 
 	public static string DefaultPath { get; } = ResolveDefaultPath();
+
+	/// <summary>
+	/// When Claude Code last fetched usage, even if that reading is too old to show.
+	/// </summary>
+	public DateTimeOffset? FetchedAt => _lastGood.FetchedAt;
 
 	public async Task<UsageSnapshot> ReadAsync(CancellationToken cancellationToken)
 	{
