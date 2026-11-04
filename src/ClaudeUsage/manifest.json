@@ -3,7 +3,7 @@
   "manifestVersion": 1,
   "id": "com.alexand7e.claude-usage",
   "name": "Claude Usage",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Shows how much of your Claude Code 5-hour and weekly usage limits you have used, as a deck widget and as variables.",
   "icon": "Assets/icon.svg",
   "entrypoints": {
@@ -16,7 +16,7 @@
     }
   },
   "publisher": {
-    "name": "alexand7e",
+    "name": "Alexandre Dev",
     "url": "https://github.com/alexand7e"
   },
   "license": "MIT",
