@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.macro-deck.app/plugin-manifest-v1.schema.json",
+  "manifestVersion": 1,
+  "id": "com.alexand7e.claude-usage",
+  "name": "Claude Usage",
+  "version": "1.2.0",
+  "description": "Shows how much of your Claude Code 5-hour and weekly usage limits you have used, as a deck widget and as variables.",
+  "icon": "Assets/icon.svg",
+  "entrypoints": {
+    "win-x64": {
+      "executable": "runtimes/win-x64/ClaudeUsage.dll",
+      "runtime": {
+        "kind": "FrameworkDependent",
+        "dotnetVersion": "10.0"
+      }
+    }
+  },
+  "publisher": {
+    "name": "alexand7e",
+    "url": "https://github.com/alexand7e"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/alexand7e/macrodeck-claude-usage",
+  "homepage": "https://github.com/alexand7e/macrodeck-claude-usage",
+  "permissions": [
+    "fs:user-files"
+  ],
+  "ai": {
+    "interaction": false,
+    "generatedContent": false,
+    "generatedAssets": true,
+    "services": []
+  },
+  "compatibility": {
+    "macroDeck": ">=3.0.0-0"
+  }
+}

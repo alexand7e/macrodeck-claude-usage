@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- The default-language file. Every translation is checked against it and the fallback chain ends
+       here, so it is required even for a plugin that ships one language. Add a language by adding
+       Localization/Strings.<culture>.resx beside it (Strings.de.resx, Strings.pt-BR.resx).
+       A dotted key becomes a nested class. -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Variables.FiveHourPercent.Name" xml:space="preserve">
+    <value>Claude 5-hour usage</value>
+  </data>
+  <data name="Variables.FiveHourPercent.Description" xml:space="preserve">
+    <value>Percentage of the Claude Code 5-hour limit used.</value>
+  </data>
+  <data name="Variables.SevenDayPercent.Name" xml:space="preserve">
+    <value>Claude weekly usage</value>
+  </data>
+  <data name="Variables.SevenDayPercent.Description" xml:space="preserve">
+    <value>Percentage of the Claude Code weekly limit used.</value>
+  </data>
+  <data name="Variables.FiveHourResetsIn.Name" xml:space="preserve">
+    <value>Claude 5-hour reset</value>
+  </data>
+  <data name="Variables.FiveHourResetsIn.Description" xml:space="preserve">
+    <value>Time left until the 5-hour limit resets.</value>
+  </data>
+  <data name="Variables.SevenDayResetsIn.Name" xml:space="preserve">
+    <value>Claude weekly reset</value>
+  </data>
+  <data name="Variables.SevenDayResetsIn.Description" xml:space="preserve">
+    <value>Time left until the weekly limit resets.</value>
+  </data>
+  <data name="Widgets.Usage.Name" xml:space="preserve">
+    <value>Claude Usage</value>
+  </data>
+  <data name="Widgets.Usage.Description" xml:space="preserve">
+    <value>Shows how much of the Claude Code 5-hour and weekly limits you have used.</value>
+  </data>
+</root>
