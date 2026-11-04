@@ -11,4 +11,5 @@ jobs:
     with:
       version: ${{ github.event.release.tag_name }}
       source: src/ClaudeUsage
+      cli-version: 3.0.0
       changelog: ${{ github.event.release.body }}
